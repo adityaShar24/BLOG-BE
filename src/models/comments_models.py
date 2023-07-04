@@ -7,15 +7,15 @@ class Comment:
         self.blog_ID = ObjectId(blog_ID)
         self.user_ID = ObjectId(user_ID)
         self.parent_comment_ID = ObjectId(parent_comment_ID) if parent_comment_ID else None 
-        self.reply = []
         
     def save_comment(self):
-        commented_id = Comments_Collection.insert_one({'comment': self.comment , 'blog_ID': self.blog_ID , 'user_ID':self.user_ID , 'parent_comment_ID': self.parent_comment_ID , 'reply': self.reply}).inserted_id
+        commented_id = Comments_Collection.insert_one({'comment': self.comment , 'blog_ID': self.blog_ID , 'user_ID':self.user_ID , 'parent_comment_ID': self.parent_comment_ID , 'reply': self.replies}).inserted_id
         return commented_id
+    
+    def list_all_parent_comments():
+        all_parent_comments = Comments_Collection.find({'blog_Id':blog_ID})
+        return all_parent_comments
 
-    def reply_comment(self, reply):
-        reply_data = {
-            'comment': reply,
-            'user_id': self.user_ID
-        }
-        self.replies.append(reply_data)
+    def list_all_replies():
+        all_replies = Comments_Collection.find({'parent_comment_ID':parent_comment_ID})
+        return list_all_replies

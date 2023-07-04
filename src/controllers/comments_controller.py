@@ -23,11 +23,11 @@ def reply():
     blog_ID = body['blog_ID']
     user_ID = body['user_ID']    
     parent_comment_ID = body['parent_comment_ID']
-    reply = body['reply']
+    replies = body['replies']
     Comments = Comment(comment = comment , user_ID = user_ID , blog_ID = blog_ID , parent_comment_ID = parent_comment_ID)
     if not comment and blog_ID and user_ID:
         return make_response({"message": "comment, blog_ID and user_ID cannot be empty"} , 401)
     
-    reply_comment = Comments.reply_comment(reply)
+    reply_comment = Comments.save_comment()
     print(reply_comment)
     return make_response({'message':'Your reply has been saved successfully' , 'reply': reply_comment} , 201)
