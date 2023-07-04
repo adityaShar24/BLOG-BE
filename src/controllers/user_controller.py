@@ -2,9 +2,8 @@ from flask import request , make_response
 from models.user_model import User
 import json
 import bson.json_util as json_util
-import bcrypt
-import jwt
-import datetime
+from flask_jwt_extended import create_access_token , get_jwt_identity 
+from app import app
 
 
 
@@ -38,19 +37,10 @@ def Login():
     
     if not existing_user:
         return make_response({"message":"No user found"} , 401)
-    
-    hash = bcrypt.hashpw( users.password.encode('utf-8') , bcrypt.gensalt())
-    
-    check_hashedpw = bcrypt.checkpw(users.password.encode('utf-8') , hash)
-    
-    json_serialize = (json_util.dumps(str(existing_user)))
-    
-    if check_hashedpw == True:
-        token = jwt.encode({"_id": json_serialize , "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=15) } , "secret_key")
-        return make_response({'token':token},200)
-    
-    if check_hashedpw == False:
-        return make_response({'message':"Could not verify"} , 400)
+    access_token = create_access_token(identity= username)
+    return make_response({"access_token": access_token} , 201)
         
-    
-    
+def getAllUsers():
+    users = User.get_Users()
+    json_Version = json_util.dumps(users)
+    return make_response(json_Version , 201)
