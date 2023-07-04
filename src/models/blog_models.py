@@ -14,4 +14,7 @@ class blog:
         blog_id = Blogs_Collection.insert_one({'title':self.title , 'content':self.content , 'author':self.author , 'user_ID':self.userID}).inserted_id
         return blog_id
     
-        
+    def get_blogs(self):
+        blogs = Blogs_Collection.find()
+        blog_list = list(blogs)
+        return blog_list
