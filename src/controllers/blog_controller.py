@@ -1,7 +1,8 @@
-from flask import request , make_response
+from flask import request , make_response 
 from models.blog_models import blog
 import json
 import bson.json_util as json_util
+
 
 
 
@@ -22,5 +23,7 @@ def Blog():
     
     return make_response({'message':"Your blog has been posted successfully" , "blog": json_version} , 201)
 
-    
-        
+def GetAllBLogs():
+    blogs = blog.get_blogs()
+    json_Version = json_util.dumps(blogs)
+    return make_response(json_Version , 201)
