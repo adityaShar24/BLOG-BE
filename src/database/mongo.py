@@ -7,7 +7,7 @@ mongo_client = MongoClient(CONNECTION_STRING)
 database = mongo_client['Blog']
 Users_Collection = database['Users']
 Blogs_Collection = database['Blogs']
-Comments_Colection = database['Comments']
+Comments_Collection = database['Comments']
 
 try:
     mongo_client.server_info() 
