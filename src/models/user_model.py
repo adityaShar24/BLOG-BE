@@ -18,3 +18,7 @@ class User:
         user_data = Users_Collection.find_one({'username': username})
         return user_data
     
+    def get_Users(self):
+        users = Users_Collection.find()
+        users_list = list(users)
+        return users_list
