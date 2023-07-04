@@ -2,7 +2,9 @@ from flask import Flask
 from routes.auth_router import auth_bp
 from routes.blog_router import blog_bp
 from routes.commet_router import com_bp
+from flask_jwt_extended import JWTManager
 
+jwt = JWTManager(app)
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "my_secret_key"
 
