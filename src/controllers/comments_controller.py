@@ -8,8 +8,9 @@ def comment():
     body = json.loads(request.data)
     comment = body['comment']
     blog_ID = body['blog_ID']
-    user_ID = body['user_ID']    
-    all_comments = Comment(comment = comment , blog_ID=blog_ID , user_ID= user_ID)
+    user_ID = body['user_ID']
+    parent_comment_ID = body['parent_comment_ID']
+    all_comments = Comment(comment = comment , blog_ID=blog_ID , user_ID= user_ID , parent_comment_ID= parent_comment_ID)
     if not all_comments.blog_ID and all_comments.comment:
         return make_response({"message":"comment and blog_ID cannnot be empty"} , 401)
     
@@ -23,11 +24,11 @@ def reply():
     blog_ID = body['blog_ID']
     user_ID = body['user_ID']    
     parent_comment_ID = body['parent_comment_ID']
-    replies = body['replies']
     Comments = Comment(comment = comment , user_ID = user_ID , blog_ID = blog_ID , parent_comment_ID = parent_comment_ID)
     if not comment and blog_ID and user_ID:
         return make_response({"message": "comment, blog_ID and user_ID cannot be empty"} , 401)
     
     reply_comment = Comments.save_comment()
+    json_Version = json_util.dumps(reply_comment)
     print(reply_comment)
-    return make_response({'message':'Your reply has been saved successfully' , 'reply': reply_comment} , 201)
+    return make_response({'message':'Your reply has been saved successfully' , 'reply': json_Version} , 201)
